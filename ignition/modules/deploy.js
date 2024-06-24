@@ -1,7 +1,7 @@
 async function main() {
   try {
       const { ethers } = require("hardhat");
-      const voting = await ethers.getContractFactory("Voting");
+      const voting = await ethers.getContractFactory("Lock");
 
       const voting_ = await voting.deploy(["bagri", "vikas", "hemant", "abhishek"], 120);
 

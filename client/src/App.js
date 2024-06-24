@@ -1,6 +1,7 @@
 import {useState , useEffect} from 'react';
 import {ethers} from 'ethers';
 import { contractABI , contractAddress } from './constant/constant';
+import Connected from './components/Connected';
 import Login from './components/Login'
 
 
@@ -8,6 +9,27 @@ function App() {
   const [provider , setProvider] = useState(null);
   const [account , setAccount] = useState(null);
   const [isConnected , setisConnected] = useState(false);
+
+  useEffect(()=>{
+    if(window.ethereum){
+      window.ethereum.on('accountsChanged' , handleAccountsChanged);
+    }
+
+    return () =>{
+      if(window.ethereum){
+        window.ethereum.removeListener('accountsChanged' , handleAccountsChanged)
+      }
+    }
+  })
+
+  function handleAccountsChanged(accounts) {
+    if(accounts.length > 0 && account !== accounts[0]) {
+      setAccount(accounts[0]);
+    }else{
+      setisConnected(false);
+      setAccount(null);
+    }
+  }
   async function connectMetaMask() {
     if(window.ethereum){
       try{
@@ -15,7 +37,7 @@ function App() {
         setProvider(provider);
 
         await provider.send("eth_requestAccounts" , []);
-        const signer = provider.getSigner();
+        const signer = await provider.getSigner();
         const address = await signer.getAddress();
         setAccount(address);
         console.log("MEtaMask  connected  :"  + address);
@@ -32,7 +54,7 @@ function App() {
   }
   return (
     <div className="App">
-      <Login connectWallet = {connectMetaMask}/>
+      {isConnected ? (<Connected account = {account}/> ) : (<Login connectWallet = {connectMetaMask}/>)}
     </div>
   );
 }
