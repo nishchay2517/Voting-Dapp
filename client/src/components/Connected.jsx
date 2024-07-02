@@ -16,7 +16,7 @@ const Connected = (props) => {
 
                 </div>
             )}
-            
+            <div className="Table">
             <table id="myTable" className="candidates-table">
                 <thead>
                 <tr>
@@ -35,6 +35,7 @@ const Connected = (props) => {
                 ))}
                 </tbody>
             </table>
+            </div>
             
         </div>
     )

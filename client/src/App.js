@@ -4,7 +4,7 @@ import {contractAddress , contractABI} from './constant/constant';
 import Login from './components/Login';
 import Finished from './components/Finished';
 import Connected from './components/Connected';
-import './App.css';
+
 
 function App() {
   const [provider, setProvider] = useState(null);
